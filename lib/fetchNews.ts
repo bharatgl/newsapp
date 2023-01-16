@@ -8,24 +8,28 @@ const fetchNews = async (
       isDynamic?: boolean
 ) =>{
 
-       const query = gql`
-      query MyQuery   {
-        myQuery(apiKey: $apiKey, q: $q) {
-          status
-          totalResults
-          articles {
-            author
-            content
-            description
-            publishedAt
-            title
-            url
-            urlToImage
-          }
-        }
+  const query = gql`
+  query MyQuery(
+    $apiKey:String!
+    $categories:String!
+    $keywords: String
+  )   {
+    myQuery(apiKey: $apiKey
+       q: $q) {
+      status
+      totalResults
+      articles {
+        author
+        content
+        description
+        publishedAt
+        title
+        url
+        urlToImage
       }
-    `;
-
+    }
+  }
+`;
 
 
       // Fetch function with Next.js 13 caching....
@@ -36,13 +40,13 @@ const fetchNews = async (
       next : isDynamic ? {revalidate:0} : {revalidate:20},
       headers:{
             "Content-Type":"application/json",
-            Authorization: `access_key ${process.env.STEPZEN_API_KEY}`,
+            Authorization: `ApiKey ${process.env.STEPZEN_API_KEY}`,
       },
     
      body:JSON.stringify({
       query,
       variables:{
-        apiKey:process.env.NEWS_API_KEY,
+            api_Key:process.env.NEWS_API_KEY,
             categories:category,
             keywords:keywords,
       },
@@ -50,30 +54,18 @@ const fetchNews = async (
     }
     );
 
-    // console.log(
+    console.log(
 
-    //   "LOADING NEW DATA FROM API for category >>>",
-    //   category,
-    //   keywords
-    // );
+      "LOADING NEW DATA FROM API for category >>>",
+      category,
+      keywords
+    );
 
+    const newsResponse = await res.json();
 
-    // console.log(res);
-    
-    const newsResponse = await JSON.parse("res");
-     console.log(newsResponse);
-     
       // Sort function by images vs not images present 
-      // const news = sortNewsByImage(newsResponse.data.myQuery);
-      // const pagination = newsResponse.data.myQuery.pagination;
-      const status = newsResponse.data.myQuery.status;
-      const totalResults = newsResponse.data.myQuery.totalResults;
-      
       const news = sortNewsByImage(newsResponse.data.myQuery);
-      // console.log(news);
-      return {news,status,totalResults};
-
-      // return {data: news, pagination, status, totalResults};
+      return news;
 
 
 

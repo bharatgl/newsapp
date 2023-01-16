@@ -5,27 +5,26 @@ type Article={
       description:string;
       source: string;
       language:string;
-      publishedAt:string;
+      published_at:string;
       title:string;
       url:string;
-      urlToImage:string |null;
+      image:string |null;
       
    
 }
 
 
-// type Pagination = {
-//       count:Int;
-//       limit: Int;
-//       offset:Int;
-//       total:Int;
-// }
+type Pagination = {
+      count:Int;
+      limit: Int;
+      offset:Int;
+      total:Int;
+}
 
 type NewsResponse = {
     
       data: Article[];
-      status: string;
-      totalResults: Int;
+      pagination: Pagination
 }
 
 type Source ={

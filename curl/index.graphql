@@ -1,32 +1,35 @@
-type ArticlesEntry {
+type Article {
   author: String
-  content: String
+  category: String
+  country: String
   description: String
-  publishedAt: DateTime
-  source: Source
+  image: String
+  language: String
+  published_at: DateTime
+  source: String
   title: String
   url: String
-  urlToImage: String
+  Pagination: Pagination
+}
+type Pagination {
+  count: Int
+  limit: Int
+  offset: Int
+  total: Int
 }
 type Root {
-  articles: [ArticlesEntry]
-  status: String
-  totalResults: Int
-}
-type Source {
-  id: String
-  name: String
+  data: [Article]
+  pagination: Pagination
 }
 
 type Query {
   myQuery(
-    apiKey: String
-    q: String
-    countries: String
+    access_key: String
     categories: String
+    countries: String
+    keywords: String
     limit: String
     offset: String
     sort: String
-    keywords: String
-  ): Root @rest(endpoint: "https://newsapi.org/v2/everything")
+  ): Root @rest(endpoint: "http://api.mediastack.com/v1/news")
 }
