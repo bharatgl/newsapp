@@ -1,0 +1,4 @@
+configurationset:
+  - configuration:
+      name: curl_import_config
+      authentication_1307c3adbf: narrewarren::stepzen.net+1000::ccca79c3b2548ce86bb35116d4830ff397faef41ac2661708be8c8e504ceab7e
